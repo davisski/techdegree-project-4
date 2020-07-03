@@ -12,17 +12,22 @@ class Game {
    * @method - Initialize game
    */
   startGame() {
-    this.missed = 0;
-
     const wrong = document.querySelectorAll(".wrong");
     const chosen = document.querySelectorAll(".chosen");
 
-    if (wrong) {
-      wrong.forEach((field) => (field.className = ".key"));
-    }
-    if (chosen) {
-      chosen.forEach((field) => (field.className = ".key"));
-    }
+    this.missed = 0;
+
+    /**
+     * @function - Sets for each item className to default 'key' class
+     * @param {Array} items - Array of HTML objects
+     */
+    const defaultClass = (items) => {
+      items.forEach((field) => (field.className = ".key"));
+    };
+
+    defaultClass(wrong);
+    defaultClass(chosen);
+
     document
       .querySelectorAll(".tries")
       .forEach((el) => (el.firstElementChild.src = "/images/liveHeart.png"));
@@ -90,15 +95,21 @@ class Game {
    */
   gameOver(bool) {
     const overlay = document.querySelector("#overlay");
-    let h1 = overlay.querySelector("h1");
-    if (bool) {
+    const h1 = overlay.querySelector("h1");
+
+    /**
+     *
+     * @param {String} className -  Sets overlay object class name.
+     * @param {String} childText - Sets overlay object child h1 text content.
+     */
+    const setOverlayProps = (className, childText) => {
       overlay.style.display = "flex";
-      overlay.className = "win";
-      h1.textContent = "Great job!";
-    } else {
-      overlay.style.display = "flex";
-      overlay.className = "lose";
-      h1.textContent = "Sorry, better luck next time!";
-    }
+      overlay.className = className;
+      h1.textContent = childText;
+    };
+
+    bool === true
+      ? setOverlayProps("win", "Great job!")
+      : setOverlayProps("lose", "Sorry, better luck next time!");
   }
 }
