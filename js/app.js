@@ -12,6 +12,12 @@ document.getElementById("btn__reset").addEventListener("click", function (e) {
 
 document.querySelectorAll(".key").forEach((element) => {
   element.addEventListener("click", function (e) {
-    game.handleInteraction(e.target);
+    game.handleInteraction(e.target.textContent);
   });
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.keyCode >= 65 && e.keyCode <= 90) {
+    game.handleInteraction(e.key);
+  }
 });

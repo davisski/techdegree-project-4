@@ -59,14 +59,21 @@ class Game {
    * @param {Object} - button -
    */
   handleInteraction(button) {
-    if (this.activePhrase.checkLetter(button.textContent)) {
-      button.className = "chosen";
-      this.activePhrase.showMatchedLetter(button.textContent);
+    const buttons = Array.from(document.querySelectorAll(".keyrow button"));
+
+    const findByLetterAndSetClass = (letter, className = "wrong") => {
+      const foundBtn = buttons.find((button) => button.textContent === letter);
+      foundBtn.className = className;
+    };
+
+    if (this.activePhrase.checkLetter(button)) {
+      findByLetterAndSetClass(button, "chosen");
+      this.activePhrase.showMatchedLetter(button);
       if (this.checkForWin()) {
         this.gameOver(this.checkForWin());
       }
     } else {
-      button.className = "wrong";
+      findByLetterAndSetClass(button);
       if (this.missed < 4) {
         this.removeLife();
       } else {
