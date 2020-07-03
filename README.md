@@ -6,4 +6,4 @@ In this project I'll create a browser-based, word guessing game: "Phrase Hunter"
 
 For this project I'll create two JavaScript classes with specific properties and methods to them.
 
-## To use my project - download ZIP from code tab button in https://github.com/davisski/techdegree-project-4
+## To use my project - download ZIP from code tab button above.
