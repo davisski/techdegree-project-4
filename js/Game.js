@@ -9,7 +9,7 @@ class Game {
     this.activePhrase = null;
   }
   /**
-   * @method - Initialize game
+   * @method - Initialize game.
    */
   startGame() {
     const wrong = document.querySelectorAll(".wrong");
@@ -18,15 +18,18 @@ class Game {
     this.missed = 0;
 
     /**
-     * @function - Sets for each item className to default 'key' class
-     * @param {Array} items - Array of HTML objects
+     * @function - Sets for each item className to default 'key' class. And sets item @property {disabled} to false.
+     * @param {Array} items - Array of HTML objects.
      */
-    const defaultClass = (items) => {
-      items.forEach((field) => (field.className = ".key"));
+    const defaultBtn = (items) => {
+      items.forEach((item) => {
+        item.className = ".key";
+        item.disabled = false;
+      });
     };
 
-    defaultClass(wrong);
-    defaultClass(chosen);
+    defaultBtn(wrong);
+    defaultBtn(chosen);
 
     document
       .querySelectorAll(".tries")
@@ -49,31 +52,42 @@ class Game {
     ];
   }
   /**
-   * @method - Randomly retrieves one of the phrases stored in phrases array
+   * @method - Randomly retrieves one of the phrases stored in phrases array.
    */
   getRandomPhrase() {
     return this.phrases[Math.floor(Math.random() * this.phrases.length)];
   }
   /**
    * @method - It checks to see if the button clicked by the player matches a letter in the phrase, and then directs the game based on a correct or incorrect guess.
-   * @param {Object} - button -
+   * @param {String} - User chosen keyboard key code.
    */
   handleInteraction(button) {
     const buttons = Array.from(document.querySelectorAll(".keyrow button"));
 
-    const findByLetterAndSetClass = (letter, className = "wrong") => {
+    /**
+     *
+     * @param {String} letter - Keyboard chosen key code.
+     * @param {String} className - Sets class name property to {foundBtn} object. By default className variable is set to "chosen".
+     */
+    const findByLetterAndSetClass = (letter, className = "chosen") => {
       const foundBtn = buttons.find((button) => button.textContent === letter);
+      foundBtn.disabled = true;
       foundBtn.className = className;
+      if (className === "wrong") {
+        foundBtn.className += " shake";
+      }
     };
 
+    // Checks if active phrase letter is equal to pressed key on keyboard.
     if (this.activePhrase.checkLetter(button)) {
-      findByLetterAndSetClass(button, "chosen");
+      findByLetterAndSetClass(button);
       this.activePhrase.showMatchedLetter(button);
       if (this.checkForWin()) {
         this.gameOver(this.checkForWin());
       }
     } else {
-      findByLetterAndSetClass(button);
+      // if active phrase letter is not equal to pressed key on keyboard.
+      findByLetterAndSetClass(button, "wrong");
       if (this.missed < 4) {
         this.removeLife();
       } else {
@@ -90,7 +104,7 @@ class Game {
     this.missed += 1;
   }
   /**
-   * @method - Checks to see if player guessed all letters in active phrase
+   * @method - Checks to see if player guessed all letters in active phrase.
    */
   checkForWin() {
     return Array.from(document.querySelectorAll("#phrase ul li"))
@@ -98,7 +112,8 @@ class Game {
       .every((field) => field.className === "show");
   }
   /**
-   * @method - Displays message win or loss
+   * @method - Displays message win or loss.
+   * @param {Boolean} - Win or loss.
    */
   gameOver(bool) {
     const overlay = document.querySelector("#overlay");
