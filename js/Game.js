@@ -62,7 +62,7 @@ class Game {
    * @param {String} - User chosen keyboard key code.
    */
   handleInteraction(button) {
-    const buttons = Array.from(document.querySelectorAll(".keyrow button"));
+    const buttons = document.querySelectorAll(".keyrow button");
 
     /**
      *
@@ -70,11 +70,13 @@ class Game {
      * @param {String} className - Sets class name property to {foundBtn} object. By default className variable is set to "chosen".
      */
     const findByLetterAndSetClass = (letter, className = "chosen") => {
-      const foundBtn = buttons.find((button) => button.textContent === letter);
+      const foundBtn = [...buttons].find(
+        (button) => button.textContent === letter
+      );
       foundBtn.disabled = true;
       foundBtn.className = className;
       if (className === "wrong") {
-        foundBtn.className += " shake";
+        foundBtn.className = " shake";
       }
     };
 
