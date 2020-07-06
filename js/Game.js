@@ -23,7 +23,7 @@ class Game {
      */
     const defaultBtn = (items) => {
       items.forEach((item) => {
-        item.className = ".key";
+        item.className = "key";
         item.disabled = false;
       });
     };
@@ -33,7 +33,7 @@ class Game {
 
     document
       .querySelectorAll(".tries")
-      .forEach((el) => (el.firstElementChild.src = "/images/liveHeart.png"));
+      .forEach((el) => (el.firstElementChild.src = "./images/liveHeart.png"));
 
     document.getElementById("overlay").style.display = "none";
     this.activePhrase = this.getRandomPhrase();
@@ -76,7 +76,7 @@ class Game {
       foundBtn.disabled = true;
       foundBtn.className = className;
       if (className === "wrong") {
-        foundBtn.className = " shake";
+        foundBtn.className = "wrong shake";
       }
     };
 
@@ -85,7 +85,7 @@ class Game {
       findByLetterAndSetClass(button);
       this.activePhrase.showMatchedLetter(button);
       if (this.checkForWin()) {
-        this.gameOver(this.checkForWin());
+        this.gameOver(true);
       }
     } else {
       // if active phrase letter is not equal to pressed key on keyboard.
@@ -93,7 +93,7 @@ class Game {
       if (this.missed < 4) {
         this.removeLife();
       } else {
-        this.gameOver(this.checkForWin());
+        this.gameOver(false);
       }
     }
   }
@@ -102,7 +102,7 @@ class Game {
    */
   removeLife() {
     let lives = Array.from(document.querySelectorAll(".tries"));
-    lives[this.missed].firstElementChild.src = "/images/lostHeart.png";
+    lives[this.missed].firstElementChild.src = "./images/lostHeart.png";
     this.missed += 1;
   }
   /**
